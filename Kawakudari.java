@@ -1,8 +1,6 @@
 import java.awt.Canvas;
 import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -11,23 +9,21 @@ import java.util.Random;
 
 class Kawakudari extends Canvas implements KeyListener {
 
-  private Image buffImage;
   private Std15 std15;
-  private Random rnd;
   private int frame;
+  private Random rnd;
   private int x;
   private boolean running;
 
-  public void setup() {
-    buffImage = createImage(512,384);
-    std15 = new Std15(512,384,32,24);
-    rnd = new Random();
+  private void setup() {
+    std15 = new Std15(512,384,32,24,this);
     frame = 0;
+    rnd = new Random();
     x = 15;
     running = true;
   }
 
-  public void update() {
+  private void update() {
     if (!running) return;
     if (frame % 5 == 0) {
       std15.locate(x,5);
@@ -46,8 +42,7 @@ class Kawakudari extends Canvas implements KeyListener {
 
   @Override
   public void update(Graphics g) {
-    std15.drawScreen(buffImage.getGraphics());
-    g.drawImage(buffImage,0,0,this);
+    std15.drawScreen(g);
   }
 
   @Override
@@ -57,11 +52,11 @@ class Kawakudari extends Canvas implements KeyListener {
   }
 
   @Override
-    public void keyReleased(KeyEvent e) {
+  public void keyReleased(KeyEvent e) {
   }
 
   @Override
-    public void keyTyped(KeyEvent e) {
+  public void keyTyped(KeyEvent e) {
   }
 
   public static void main(String args[]) {

@@ -4,16 +4,15 @@ This project implements part of the [std15.h](https://github.com/IchigoJam/c4ij/
 
 It will allow programming for [IchigoJam](https://ichigojam.net/index-en.html)-like targets that display [IchigoJam FONT](https://mitsuji.github.io/ichigojam-font.json/) on screen using a Java programming language.
 ```
-  public void setup() {
-    buffImage = createImage(512,384);
-    std15 = new Std15(512,384,32,24);
-    rnd = new Random();
+  private void setup() {
+    std15 = new Std15(512,384,32,24,this);
     frame = 0;
+    rnd = new Random();
     x = 15;
     running = true;
   }
 
-  public void update() {
+  private void update() {
     if (!running) return;
     if (frame % 5 == 0) {
       std15.locate(x,5);
@@ -32,8 +31,7 @@ It will allow programming for [IchigoJam](https://ichigojam.net/index-en.html)-l
 
   @Override
   public void update(Graphics g) {
-    std15.drawScreen(buffImage.getGraphics());
-    g.drawImage(buffImage,0,0,this);
+    std15.drawScreen(g);
   }
 
   @Override
@@ -41,7 +39,6 @@ It will allow programming for [IchigoJam](https://ichigojam.net/index-en.html)-l
     if (e.getKeyCode() == KeyEvent.VK_LEFT)  x--;
     if (e.getKeyCode() == KeyEvent.VK_RIGHT) x++;
   }
-
 
 ```
 

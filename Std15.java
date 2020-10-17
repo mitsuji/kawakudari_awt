@@ -1,4 +1,6 @@
+import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Color;
 
 
@@ -22,7 +24,10 @@ class Std15 {
   private int cursorX;
   private int cursorY;
 
-  Std15(int screenW, int screenH, int buffW, int buffH) {
+  private Canvas canvas;
+  private Image buffImage;
+
+  Std15(int screenW, int screenH, int buffW, int buffH, Canvas canvas) {
     this.screenW = screenW;
     this.screenH = screenH;
     this.buffW = buffW;
@@ -30,6 +35,9 @@ class Std15 {
     buff = new char[buffW * buffH];
     dotW = screenW / buffW / CHAR_W;
     dotH = screenH / buffH / CHAR_H;
+    dotH = screenH / buffH / CHAR_H;
+    this.canvas = canvas;
+    this.buffImage = canvas.createImage(screenW,screenH);
     cls();
   }
 
@@ -142,13 +150,15 @@ class Std15 {
   }
 
   public void drawScreen(Graphics g) {
-    g.setColor(Color.BLACK);
-    g.fillRect(0,0,(int)screenW,(int)screenH);
+    Graphics bg = buffImage.getGraphics();
+    bg.setColor(Color.BLACK);
+    bg.fillRect(0,0,(int)screenW,(int)screenH);
     for (int y = 0; y < buffH; y++) {
       for (int x = 0; x < buffW; x++) {
-        drawChar(g, x, y, scr(x,y));
+        drawChar(bg, x, y, scr(x,y));
       }
     }
+    g.drawImage(buffImage,0,0,canvas);
   }
 
 
